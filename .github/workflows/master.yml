@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    branches:
+      - 'master'
+  push:
+    branches:
+      - 'master'
+
+name: Master workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.3
+        env:
+          DB_CONNECTION: pgsql
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: PHP Security Checker
+      uses: StephaneBour/actions-php-security-checker@1.0
+
+    - name: Setup project
+      run: make setup
+
+    - name: Check lint
+      run: make lint
+
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      run: make test
