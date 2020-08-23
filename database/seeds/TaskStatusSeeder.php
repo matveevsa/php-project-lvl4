@@ -12,23 +12,26 @@ class TaskStatusSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('task_statuses')->insert([
-            [
-                'name' => 'New',
-                'created_at' => now()
-            ],
-            [
-                'name' => 'In progress',
-                'created_at' => now()
-            ],
-            [
-                'name' => 'Done',
-                'created_at' => now()
-            ],
-            [
-                'name' => 'Testing',
-                'created_at' => now()
-            ]
-        ]);
+        DB::table('task_statuses')
+            ->insert(
+                [
+                    [
+                        'name' => 'New',
+                        'created_at' => now()
+                    ],
+                    [
+                        'name' => 'In progress',
+                        'created_at' => now()
+                    ],
+                    [
+                        'name' => 'Done',
+                        'created_at' => now()
+                    ],
+                    [
+                        'name' => 'Testing',
+                        'created_at' => now()
+                    ]
+                ]
+            );
     }
 }
