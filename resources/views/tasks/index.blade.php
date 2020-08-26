@@ -2,11 +2,42 @@
 @include('flash::message')
 @section('content')
 <h1 class="mb-5">Tasks</h1>
-@can('crud-entity')
-<a href="{{ route('tasks.create') }}" class="btn btn-primary">
-  @lang('tasks.new_task')
-</a>
-@endcan
+  <div class="d-flex">
+	<div>
+	{{
+		Form::open([
+			'route' => 'tasks.index',
+			'class' => 'form-inline',
+			'method' => 'get'
+		])
+    }}
+        {{
+        Form::select('filter[status_id]', $statuses, null, [
+            'class' => 'form-control mr-2',
+            'placeholder' => 'Status',
+        ])
+        }}
+        {{
+        Form::select('filter[created_by_id]', $users, null, [
+            'class' => 'form-control mr-2',
+            'placeholder' => 'Creator',
+        ])
+        }}
+        {{
+        Form::select('filter[assigned_to_id]]', $users, null, [
+            'class' => 'form-control mr-2',
+            'placeholder' => 'Assignee',
+        ])
+        }}
+		{{Form::submit('Apply', ['class' => 'btn btn-outline-primary mr-2'])}}
+	{{Form::close()}}
+    </div>
+    @can('crud-entity')
+        <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">
+        @lang('tasks.new_task')
+        </a>
+    @endcan
+  </div>
       <table class="table mt-2">
           <thead>
             <tr>

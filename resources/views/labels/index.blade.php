@@ -5,9 +5,9 @@
 @section('content')
 <h1 class="mb-5">Labels</h1>
 @can('crud-entity')
-<a href="{{ route('labels.create') }}" class="btn btn-primary">
-  @lang('labels.new_label')
-</a>
+  <a href="{{ route('labels.create') }}" class="btn btn-primary">
+    @lang('labels.new_label')
+  </a>
 @endcan
       <table class="table mt-2">
           <thead>

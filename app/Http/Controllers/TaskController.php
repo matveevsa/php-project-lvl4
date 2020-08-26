@@ -7,6 +7,8 @@ use App\TaskStatus;
 use App\User;
 use App\Label;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
@@ -19,11 +21,24 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::orderBy('updated_at', 'desc')->get();
+        $tasks = (empty($request->query('filter'))
+            ? Task::orderBy('updated_at', 'desc')->get()
+            : QueryBuilder::for(Task::class)
+                ->allowedFilters([
+                    AllowedFilter::exact('status_id'),
+                    AllowedFilter::exact('created_by_id'),
+                    AllowedFilter::exact('assigned_to_id')
+                    ])
+                ->get()
+            );
 
-        return view('tasks.index', compact('tasks'));
+        $labels = $this->pluckNameId(Label::class);
+        $statuses = $this->pluckNameId(TaskStatus::class);
+        $users = $this->pluckNameId(User::class);
+
+        return view('tasks.index', compact('tasks', 'labels', 'statuses', 'users'));
     }
 
     /**
@@ -35,20 +50,9 @@ class TaskController extends Controller
     {
         $this->authorize('crud-entity');
 
-        $labels = Label::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
-
-        $statuses = TaskStatus::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
-
-        $users = User::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
+        $labels = $this->pluckNameId(Label::class);
+        $statuses = $this->pluckNameId(TaskStatus::class);
+        $users = $this->pluckNameId(User::class);
 
         return view('tasks.create', [
             'statuses' => $statuses,
@@ -105,20 +109,9 @@ class TaskController extends Controller
     {
         $this->authorize('crud-entity');
 
-        $labels = Label::select(['id', 'name'])
-        ->get()
-        ->pluck('name', 'id')
-        ->toArray();
-
-        $statuses = TaskStatus::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
-
-        $users = User::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
+        $labels = $this->pluckNameId(Label::class);
+        $statuses = $this->pluckNameId(TaskStatus::class);
+        $users = $this->pluckNameId(User::class);
 
         return view('tasks.edit', [
             'task' => $task,
@@ -167,5 +160,13 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->route('tasks.index');
+    }
+
+    private function pluckNameId($class)
+    {
+        return $class::select(['id', 'name'])
+            ->get()
+            ->pluck('name', 'id')
+            ->toArray();
     }
 }
