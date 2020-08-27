@@ -34,13 +34,10 @@ jobs:
     - name: Check lint
       run: make lint
 
-    - name: Test
-      run: make test  --ci --coverage
-
-    - name: Report
-      run: |
-        export GIT_BRANCH="${GITHUB_REF/refs\/heads\//}"
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
-        ./cc-test-reporter upload-coverage
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.6.0
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
+      with:
+        coverageCommand: make test
+        debug: true
