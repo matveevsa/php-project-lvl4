@@ -35,9 +35,7 @@ jobs:
       run: make lint
 
     - name: Test & publish code coverage
-      uses: paambaati/codeclimate-action@v2.6.0
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
+      uses: marsam/codeclimate-action@master
       with:
-        coverageCommand: make test
-        debug: true
+        command: npx jest --coverage --coverageReporters=lcov
+        reporter-id: ${{ secrets.TEST_REPORTER_ID }}
