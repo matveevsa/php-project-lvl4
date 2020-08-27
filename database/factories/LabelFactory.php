@@ -4,6 +4,7 @@
 
 use App\Label;
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 $factory->define(Label::class, function (Faker $faker) {
     return [

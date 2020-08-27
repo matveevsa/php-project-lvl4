@@ -46,7 +46,7 @@ class LabelController extends Controller
         $this->authorize('crud-entity');
 
         $data = $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|unique:labels',
             'description' => 'required'
         ]);
 
@@ -54,7 +54,7 @@ class LabelController extends Controller
         $label->fill($data);
         $label->save();
 
-        flash('Label added!')->success()->important();
+        flash(__('labels.store'))->success()->important();
 
         return redirect()->route('labels.index');
     }
@@ -93,16 +93,15 @@ class LabelController extends Controller
     public function update(Request $request, Label $label)
     {
         $this->authorize('crud-entity');
-
         $data = $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|unique:labels,name,' . $label->id,
             'description' => 'required'
         ]);
 
         $label->fill($data);
         $label->save();
 
-        flash('Label updated!')->success()->important();
+        flash(__('labels.update'))->success()->important();
 
         return redirect()->route('labels.index');
     }
@@ -118,6 +117,8 @@ class LabelController extends Controller
         $this->authorize('crud-entity');
 
         $label->delete();
+
+        flash(__('labels.destroy'))->success()->important();
 
         return redirect()->route('labels.index');
     }

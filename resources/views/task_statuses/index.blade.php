@@ -1,6 +1,7 @@
 @extends ('layouts.app')
-@include('flash::message')
+
 @section('content')
+  @include('flash::message')
   <h1 class="mb-5">Task Status</h1>
   @can('crud-entity')
     <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">
@@ -31,7 +32,7 @@
                   </a>
                   <a
                     href="{{ route('task_statuses.destroy', $taskStatus) }}"
-                    data-confirm="Вы уверены?"
+                    data-confirm="{{ __('common_interface.confirm_delete') }}"
                     data-method="delete"
                     rel="nofollow"
                   >

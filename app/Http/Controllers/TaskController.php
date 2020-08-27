@@ -23,7 +23,9 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = (empty($request->query('filter'))
+        $filter = $request->query('filter') ?? [];
+
+        $tasks = (empty($filter)
             ? Task::orderBy('updated_at', 'desc')->get()
             : QueryBuilder::for(Task::class)
                 ->allowedFilters([
@@ -38,7 +40,7 @@ class TaskController extends Controller
         $statuses = $this->pluckNameId(TaskStatus::class);
         $users = $this->pluckNameId(User::class);
 
-        return view('tasks.index', compact('tasks', 'labels', 'statuses', 'users'));
+        return view('tasks.index', compact('tasks', 'labels', 'statuses', 'users', 'filter'));
     }
 
     /**
@@ -83,7 +85,7 @@ class TaskController extends Controller
         $task->fill($data);
         $task->save();
 
-        flash('Task added!')->success()->important();
+        flash(__('tasks.store'))->success()->important();
 
         return redirect()->route('tasks.index');
     }
@@ -142,7 +144,7 @@ class TaskController extends Controller
         $task->fill($data);
         $task->save();
 
-        flash('Task updated!')->success()->important();
+        flash(__('tasks.update'))->success()->important();
 
         return redirect()->route('tasks.index');
     }
@@ -158,6 +160,8 @@ class TaskController extends Controller
         $this->authorize('task-delete', $task);
 
         $task->delete();
+
+        flash(__('tasks.destroy'))->success()->important();
 
         return redirect()->route('tasks.index');
     }

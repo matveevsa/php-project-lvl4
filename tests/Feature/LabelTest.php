@@ -83,6 +83,6 @@ class LabelTest extends TestCase
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('labels', ['id' => $label->id]);
+        $this->assertSoftDeleted('labels', ['id' => $label->id]);
     }
 }

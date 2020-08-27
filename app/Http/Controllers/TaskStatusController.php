@@ -53,7 +53,7 @@ class TaskStatusController extends Controller
         $status->fill($data);
         $status->save();
 
-        flash('Status added!')->success()->important();
+        flash(__('task_statuses.store'))->success()->important();
 
         return redirect()->route('task_statuses.index');
     }
@@ -100,7 +100,7 @@ class TaskStatusController extends Controller
         $taskStatus->fill($data);
         $taskStatus->save();
 
-        flash('Status updated!')->success()->important();
+        flash(__('task_statuses.update'))->success()->important();
 
         return redirect()->route('task_statuses.index');
     }
@@ -116,6 +116,8 @@ class TaskStatusController extends Controller
         $this->authorize('crud-entity');
 
         $taskStatus->delete();
+
+        flash(__('task_statuses.destroy'))->success()->important();
 
         return redirect()->route('task_statuses.index');
     }

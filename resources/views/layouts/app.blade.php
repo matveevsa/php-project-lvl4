@@ -31,7 +31,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <a class="navbar-brand" href="{{ route('home') }}">Home</a>
+                        <a class="navbar-brand" href="{{ route('welcome') }}">Home</a>
                         <a class="navbar-brand" href="{{ route('tasks.index') }}">Tasks</a>
                         <a class="navbar-brand" href="{{ route('task_statuses.index') }}">
                             Task Statuses
@@ -46,7 +46,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('home') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">

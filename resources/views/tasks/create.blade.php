@@ -17,7 +17,9 @@
                ])
             }}
             @error('name')
-               <div class="invalid-feedback">The name field is required.</div>
+               <div class="invalid-feedback">
+                  @lang('validation.required', ['attribute' => 'name'])
+               </div>
             @enderror
          </div>
          <div class="form-group">
@@ -38,7 +40,9 @@
                ])
             }}
             @error('status_id')
-               <div class="invalid-feedback">The status field is required.</div>
+               <div class="invalid-feedback">
+                  @lang('validation.required', ['attribute' => 'status'])
+               </div>
             @enderror
          </div>
          <div class="form-group">
@@ -60,6 +64,6 @@
                ])
             }}
          </div>
-         {{Form::submit('Create', ['class' => 'btn btn-primary'])}}
+         {{Form::submit(__('common_interface.create'), ['class' => 'btn btn-primary'])}}
       {{Form::close()}}
 @endsection

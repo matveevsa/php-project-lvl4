@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+   <h1>Update Task</h1>
       {{
           Form::model($task, [
             'url' => route('tasks.update', $task),
@@ -13,10 +13,15 @@
             {{ Form::label('name', 'Name') }}
             {{
                Form::text('name', $value = $task->name, [
-                  'class' => 'form-control',
+                  'class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control',
                   'placeholder' => 'New task status'
                ])
             }}
+            @error('name')
+               <div class="invalid-feedback">
+                  {{ $message }}
+               </div>
+            @enderror
          </div>
          <div class="form-group">
             {{ Form::label('description', 'Description') }}
@@ -31,10 +36,15 @@
             {{ Form::label('status_id', 'Status') }}
             {{
                Form::select('status_id', $statuses, $task->status_id, [
-                  'class' => 'form-control',
+                  'class' => $errors->has('status_id') ? 'form-control is-invalid' : 'form-control',
                   'placeholder' => 'Status'
                ])
             }}
+            @error('status_id')
+               <div class="invalid-feedback">
+                  {{ $message }}
+               </div>
+            @enderror
          </div>
          <div class="form-group">
             {{ Form::label('assigned_to_id', 'Assignee') }}
@@ -55,6 +65,6 @@
                ])
             }}
          </div>
-         {{Form::submit('Update', ['class' => 'btn btn-primary'])}}
+         {{Form::submit(__('common_interface.update'), ['class' => 'btn btn-primary'])}}
       {{Form::close()}}
 @endsection

@@ -20,16 +20,20 @@ class CreateTasksTable extends Migration
 
             $table->foreignId('status_id')
                 ->constrained('task_statuses')
-                ->default(App\TaskStatus::where('name', 'New')->get());
+                ->default(App\TaskStatus::where('name', 'New')->get())
+                ->onDelete('cascade');
 
             $table->foreignId('created_by_id')
-                ->constrained('users');
+                ->constrained('users')
+                ->onDelete('cascade');
 
             $table->foreignId('assigned_to_id')
                 ->nullable()
-                ->constrained('users');
+                ->constrained('users')
+                ->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

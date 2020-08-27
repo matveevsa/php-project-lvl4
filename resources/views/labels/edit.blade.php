@@ -13,20 +13,30 @@
       {{ Form::label('name', 'Label name') }}
       {{
          Form::text('name', $value = null, [
-            'class' => 'form-control',
+            'class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control',
             'placeholder' => 'New task status'
          ])
       }}
+      @error('name')
+         <div class="invalid-feedback">
+            {{ $message }}
+         </div>
+      @enderror
    </div>
    <div class="form-group">
       {{ Form::label('description', 'Label description') }}
       {{
-         Form::textarea('name', $value = null, [
-            'class' => 'form-control',
+         Form::textarea('description', $value = null, [
+            'class' => $errors->has('description') ? 'form-control is-invalid' : 'form-control',
             'placeholder' => 'New task status'
          ])
       }}
+      @error('description')
+         <div class="invalid-feedback">
+            {{ $message }}
+         </div>
+      @enderror
    </div>
-   {{Form::submit('Edit', ['class' => 'btn btn-primary'])}}
+   {{Form::submit(__('common_interface.update'), ['class' => 'btn btn-primary'])}}
 {{Form::close()}}
 @endsection

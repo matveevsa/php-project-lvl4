@@ -85,6 +85,6 @@ class TaskTest extends TestCase
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+        $this->assertSoftDeleted('tasks', ['id' => $task->id]);
     }
 }

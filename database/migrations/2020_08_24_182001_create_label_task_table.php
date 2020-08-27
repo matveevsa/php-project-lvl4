@@ -17,12 +17,14 @@ class CreateLabelTaskTable extends Migration
             $table->id();
 
             $table->foreignId('label_id')
-            ->nullable()
-            ->constrained('labels');
+                ->nullable()
+                ->constrained('labels')
+                ->onDelete('cascade');
 
             $table->foreignId('task_id')
-            ->nullable()
-            ->constrained('tasks');
+                ->nullable()
+                ->constrained('tasks')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
