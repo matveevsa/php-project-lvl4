@@ -34,10 +34,14 @@ jobs:
     - name: Check lint
       run: make lint
 
-    - name: Test & publish code coverage
+    - name: Tests
+      run: make test
+
+    - name: publish code coverage
       uses: paambaati/codeclimate-action@v2.6.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
       with:
-        coverageCommand: make test
+        coverageCommand: make test-coverage
+        coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
         debug: true
