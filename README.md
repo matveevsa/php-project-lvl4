@@ -3,7 +3,7 @@
 
 ### Система управления задачами.
 
-![Master workflow](https://github.com/matveevsa/php-project-lvl4/workflows/Master%20workflow/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/dabbb854b4f0f4fcee34/maintainability)](https://codeclimate.com/github/matveevsa/php-project-lvl4/maintainability)
+![Master workflow](https://github.com/matveevsa/php-project-lvl4/workflows/Master%20workflow/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/dabbb854b4f0f4fcee34/maintainability)](https://codeclimate.com/github/matveevsa/php-project-lvl4/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/dabbb854b4f0f4fcee34/test_coverage)](https://codeclimate.com/github/matveevsa/php-project-lvl4/test_coverage)
 
 ```
 Основные возможности системы:
