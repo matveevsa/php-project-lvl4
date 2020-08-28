@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 $factory->define(Label::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->unique()->name,
         'description' => $faker->sentence()
     ];
 });

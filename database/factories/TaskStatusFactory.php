@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(TaskStatus::class, function (Faker $faker) {
     return [
-        'name' => $faker->state
+        'name' => $faker->unique()->name
     ];
 });
