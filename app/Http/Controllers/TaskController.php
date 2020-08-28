@@ -74,7 +74,7 @@ class TaskController extends Controller
         $this->authorize('crud-entity');
 
         $data = $this->validate($request, [
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|unique:tasks',
             'status_id' => 'required',
             'description' => 'nullable',
             'assigned_to_id' => 'nullable'
@@ -135,7 +135,7 @@ class TaskController extends Controller
         $this->authorize('crud-entity');
 
         $data = $this->validate($request, [
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|unique:tasks,name' . $task->id,
             'status_id' => 'required',
             'description' => 'nullable',
             'assigned_to_id' => 'nullable'

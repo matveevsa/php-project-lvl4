@@ -19,7 +19,7 @@
          }}
          @error('name')
             <div class="invalid-feedback">
-               @lang('validation.required', ['attribute' => 'name'])
+               {{ $message }}
             </div>
          @enderror
       </div>
