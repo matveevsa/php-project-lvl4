@@ -1,5 +1,6 @@
 <?php
 
+use App\TaskStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,26 +13,9 @@ class TaskStatusSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('task_statuses')
-            ->insert(
-                [
-                    [
-                        'name' => 'New',
-                        'created_at' => now()
-                    ],
-                    [
-                        'name' => 'In progress',
-                        'created_at' => now()
-                    ],
-                    [
-                        'name' => 'Done',
-                        'created_at' => now()
-                    ],
-                    [
-                        'name' => 'Testing',
-                        'created_at' => now()
-                    ]
-                ]
-            );
+        factory(TaskStatus::class)->create(['name' => 'New']);
+        factory(TaskStatus::class)->create(['name' => 'In progress']);
+        factory(TaskStatus::class)->create(['name' => 'Done']);
+        factory(TaskStatus::class)->create(['name' => 'Testing']);
     }
 }

@@ -1,7 +1,6 @@
 @extends ('layouts.app')
 
 @section('content')
-  @include('flash::message')
   <h1 class="mb-5">Tasks</h1>
     <div class="d-flex">
     <div>

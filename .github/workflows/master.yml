@@ -11,17 +11,6 @@ name: Master workflow
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12.3
-        env:
-          DB_CONNECTION: pgsql
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test
-        ports:
-        - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v1
 
@@ -34,10 +23,7 @@ jobs:
     - name: Check lint
       run: make lint
 
-    - name: Tests
-      run: make test
-
-    - name: publish code coverage
+    - name: Tests & publish code coverage
       uses: paambaati/codeclimate-action@v2.6.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}

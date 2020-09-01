@@ -7,5 +7,6 @@ return [
     'create' => 'Create',
     'update' => 'Update',
     'apply' => 'Apply',
-    'confirm_delete' => 'Are you sure?'
+    'confirm_delete' => 'Are you sure?',
+    'cancel' => 'Cancel'
 ];

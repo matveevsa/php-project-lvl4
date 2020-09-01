@@ -30,10 +30,6 @@ class AuthServiceProvider extends ServiceProvider
             return Auth::check();
         });
 
-        Gate::define('edit-labels', function ($user) {
-            return $user->isAdmin();
-        });
-
         Gate::define('task-delete', 'App\Policies\TasksPolicy@delete');
     }
 }

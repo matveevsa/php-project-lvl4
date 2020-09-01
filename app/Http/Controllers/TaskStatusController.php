@@ -94,7 +94,7 @@ class TaskStatusController extends Controller
         $this->authorize('crud-entity');
 
         $data = $this->validate($request, [
-            'name' => 'required|min:3|unique:task_statuses,name' . $taskStatus->id
+            'name' => 'required|min:3|unique:task_statuses,name,' . $taskStatus->id
         ]);
 
         $taskStatus->fill($data);

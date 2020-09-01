@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTask;
+use App\Http\Requests\UpdateTask;
 use App\Task;
 use App\TaskStatus;
 use App\User;
 use App\Label;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -36,9 +40,9 @@ class TaskController extends Controller
                 ->get()
             );
 
-        $labels = $this->pluckNameId(Label::class);
-        $statuses = $this->pluckNameId(TaskStatus::class);
-        $users = $this->pluckNameId(User::class);
+        $labels = Arr::pluck(Label::all(), 'name', 'id');
+        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
+        $users = Arr::pluck(User::all(), 'name', 'id');
 
         return view('tasks.index', compact('tasks', 'labels', 'statuses', 'users', 'filter'));
     }
@@ -52,9 +56,9 @@ class TaskController extends Controller
     {
         $this->authorize('crud-entity');
 
-        $labels = $this->pluckNameId(Label::class);
-        $statuses = $this->pluckNameId(TaskStatus::class);
-        $users = $this->pluckNameId(User::class);
+        $labels = Arr::pluck(Label::all(), 'name', 'id');
+        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
+        $users = Arr::pluck(User::all(), 'name', 'id');
 
         return view('tasks.create', [
             'statuses' => $statuses,
@@ -69,19 +73,15 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTask $request)
     {
         $this->authorize('crud-entity');
 
-        $data = $this->validate($request, [
-            'name' => 'required|min:3|unique:tasks',
-            'status_id' => 'required',
-            'description' => 'nullable',
-            'assigned_to_id' => 'nullable'
-        ]);
+        $data = $request->validated();
 
-        $task = new Task();
-        $task->created_by_id = auth()->user()->id;
+        $userId = Auth::user()->id;
+        $task = User::find($userId)->createdTasks()->make();
+
         $task->fill($data);
         $task->save();
 
@@ -111,9 +111,9 @@ class TaskController extends Controller
     {
         $this->authorize('crud-entity');
 
-        $labels = $this->pluckNameId(Label::class);
-        $statuses = $this->pluckNameId(TaskStatus::class);
-        $users = $this->pluckNameId(User::class);
+        $labels = Arr::pluck(Label::all(), 'name', 'id');
+        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
+        $users = Arr::pluck(User::all(), 'name', 'id');
 
         return view('tasks.edit', [
             'task' => $task,
@@ -130,16 +130,14 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTask $request, Task $task)
     {
         $this->authorize('crud-entity');
 
-        $data = $this->validate($request, [
-            'name' => 'required|min:3|unique:tasks,name' . $task->id,
-            'status_id' => 'required',
-            'description' => 'nullable',
-            'assigned_to_id' => 'nullable'
-        ]);
+        $data = $request->validated();
+
+        $userId = Auth::user()->id;
+        $task = User::find($userId)->createdTasks()->findOrFail($task->id);
 
         $task->fill($data);
         $task->save();
@@ -157,20 +155,12 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize('task-delete', $task);
+        // $this->authorize('task-delete', $task);
 
         $task->delete();
 
         flash(__('tasks.destroy'))->success()->important();
 
         return redirect()->route('tasks.index');
-    }
-
-    private function pluckNameId($class)
-    {
-        return $class::select(['id', 'name'])
-            ->get()
-            ->pluck('name', 'id')
-            ->toArray();
     }
 }

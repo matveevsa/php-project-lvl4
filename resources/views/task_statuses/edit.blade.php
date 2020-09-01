@@ -13,7 +13,7 @@
          {{ Form::label('name', 'Status name') }}
          {{
             Form::text('name', $value = null, [
-               'class' => 'form-control',
+               'class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control',
                'placeholder' => 'New task status'
             ])
          }}
@@ -23,6 +23,11 @@
             </div>
          @enderror
       </div>
-      {{Form::submit(__('common_interface.update'), ['class' => 'btn btn-primary'])}}
+      <div>
+         {{Form::submit(__('common_interface.update'), ['class' => 'btn btn-primary'])}}
+         <a class="btn btn-outline-primary" href="{{ route('task_statuses.index') }}">
+            {{ __('common_interface.cancel') }}
+         </a>
+      </div>
    {{Form::close()}}
 @endsection
