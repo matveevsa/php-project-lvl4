@@ -19,8 +19,6 @@ jobs:
 
     - name: Setup project
       run: make setup
-      env:
-        APP_ENV: testing
 
     - name: Check lint
       run: make lint
