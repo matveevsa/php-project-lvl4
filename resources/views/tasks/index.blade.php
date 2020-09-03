@@ -32,7 +32,7 @@
       {{Form::submit(__('common_interface.apply'), ['class' => 'btn btn-outline-primary mr-2'])}}
     {{Form::close()}}
       </div>
-      @can('crud-entity')
+      @can('create', App\Task::class)
           <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">
           @lang('tasks.new_task')
           </a>
@@ -47,7 +47,7 @@
                 <th scope="col">Creator</th>
                 <th scope="col">Assignee</th>
                 <th scope="col">Created at</th>
-                @can('crud-entity')
+                @can('create', App\Task::class)
                   <th scope="col">Actions</th>
                 @endcan
               </tr>
@@ -61,14 +61,14 @@
                 <td>{{ $task->creator->name }}</td>
                 <td>{{ optional($task->assignee)->name }}</td>
                 <td>{{ $task->created_at->format('d M Y') }}</td>
-                @can('crud-entity')
+                @can('create', $task)
                   <td>
                     <a
                       href="{{ route('tasks.edit', $task) }}"
                     >
                       @lang('common_interface.edit')
                     </a>
-                    @can('task-delete', $task)
+                    @can('delete', $task)
                       <a
                         href="{{ route('tasks.destroy', $task) }}"
                         data-confirm="{{ __('common_interface.confirm_delete') }}"

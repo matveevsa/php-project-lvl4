@@ -3,7 +3,7 @@
 @section('content')
   @include('flash::message')
   <h1 class="mb-5">Labels</h1>
-  @can('crud-entity')
+  @can('create', App\Label::class)
     <a href="{{ route('labels.create') }}" class="btn btn-primary">
       @lang('labels.new_label')
     </a>
@@ -15,7 +15,7 @@
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Created at</th>
-                  @can('crud-entity')
+                  @can('create', App\Label::class)
                       <th scope="col">Actions</th>
                   @endcan
               </tr>
@@ -27,7 +27,7 @@
                 <td>{{ $label->name }}</td>
                 <td>{{ $label->description }}</td>
                 <td>{{ $label->created_at->format('d M Y') }}</td>
-                @can('crud-entity')
+                @can('create', $label)
                   <td>
                     <a
                       href="{{ route('labels.edit', $label) }}"

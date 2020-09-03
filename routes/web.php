@@ -16,8 +16,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::post('/contact', 'HomeController@store');
-
 Route::resource('task_statuses', 'TaskStatusController');
 Route::resource('tasks', 'TaskController');
 Route::resource('labels', 'LabelController');

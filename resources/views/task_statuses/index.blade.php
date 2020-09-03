@@ -2,7 +2,7 @@
 
 @section('content')
   <h1 class="mb-5">Task Status</h1>
-  @can('crud-entity')
+  @can('create', App\Label::class)
     <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">
       @lang('task_statuses.new_status')
     </a>
@@ -13,7 +13,7 @@
               <th style="width: 16.66%" scope="col">#</th>
               <th style="width: 30%" scope="col">Name</th>
               <th style="width: 30%" scope="col">Created at</th>
-              @can('crud-entity')
+              @can('create', App\TaskStatus::class)
                 <th scope="col">Actions</th>
               @endcan
             </tr>
@@ -24,7 +24,7 @@
               <th scope="row">{{ $taskStatus->id }}</th>
               <td>{{ $taskStatus->name }}</td>
               <td>{{ $taskStatus->created_at->format('d M Y') }}</td>
-              @can('crud-entity')
+              @can('create', $taskStatus)
                 <td>
                   <a href="{{ route('task_statuses.edit', $taskStatus) }}">
                     @lang('common_interface.edit')
