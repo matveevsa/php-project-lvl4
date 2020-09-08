@@ -36,18 +36,18 @@ class TaskController extends Controller
                 ->get()
             );
 
-        $labels = Arr::pluck(Label::all(), 'name', 'id');
-        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
-        $users = Arr::pluck(User::all(), 'name', 'id');
+        $labels = Label::pluck('name', 'id');
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
 
         return view('tasks.index', compact('tasks', 'labels', 'statuses', 'users', 'filter'));
     }
 
     public function create()
     {
-        $labels = Arr::pluck(Label::all(), 'name', 'id');
-        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
-        $users = Arr::pluck(User::all(), 'name', 'id');
+        $labels = Label::pluck('name', 'id');
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
 
         return view('tasks.create', [
             'statuses' => $statuses,
@@ -75,9 +75,9 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $labels = Arr::pluck(Label::all(), 'name', 'id');
-        $statuses = Arr::pluck(TaskStatus::all(), 'name', 'id');
-        $users = Arr::pluck(User::all(), 'name', 'id');
+        $labels = Label::pluck('name', 'id');
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
 
         return view('tasks.edit', [
             'task' => $task,
@@ -99,7 +99,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task, User $user)
     {
         $task->delete();
 

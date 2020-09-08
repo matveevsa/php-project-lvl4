@@ -30,9 +30,4 @@ class Task extends Model
     {
         return $this->belongsToMany(Label::class);
     }
-
-    public function isCreator(User $user)
-    {
-        return $this->creator->id === $user->id;
-    }
 }
